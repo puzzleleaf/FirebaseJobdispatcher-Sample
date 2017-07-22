@@ -12,16 +12,30 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
+    ToastBroadCastReceiver tbcr;
+    IntentFilter filter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ToastBroadCastReceiver tbcr = new ToastBroadCastReceiver();
-        IntentFilter filter = new IntentFilter("toast");
+        tbcr = new ToastBroadCastReceiver();
+        filter = new IntentFilter("toast");
         //BroadCastReceiver를 통해서 토스트가 나타나게 함
-        registerReceiver(tbcr,filter);
-        ToastUtility.scheduleChargingReminder(this);
 
+        ToastUtility.scheduler(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(tbcr,filter);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(tbcr);
     }
 
     private class ToastBroadCastReceiver extends BroadcastReceiver{

@@ -21,7 +21,7 @@ public class ToastUtility {
     private static final String REMINDER_JOB_TAG = "toast_tag";
     private static boolean sInitialized = false;
 
-    synchronized public static void scheduleChargingReminder(final Context context){
+    synchronized public static void scheduler(final Context context){
         if(sInitialized) return;
 
         Driver driver = new GooglePlayDriver(context);
